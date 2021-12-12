@@ -1,23 +1,34 @@
-import { Reducer } from "redux";
-import { ICharacterState, CharacterTypes } from "./types";
+import { createSlice } from "@reduxjs/toolkit";
+import { ICharacterState } from "./types";
 
-const INITIAL_STATE: ICharacterState = {
+const initialState: ICharacterState = {
   character: [],
-  pending: false,
-  error: "",
+  search: "",
+  currentPage: 1,
+  fullPage: 0,
 };
 
-const character: Reducer<ICharacterState> = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case CharacterTypes.fetchCharacterRequest:
-      return { ...state, pending: true };
-    case CharacterTypes.fetchCharacterSuccess:
-      return { ...state, character: action.payload.character, error: "" };
-    case CharacterTypes.fetchCharacterFailure:
-      return { ...state, character: [], error: action.payload.error };
-    default:
-      return { ...state };
-  }
-};
+const characterSlice = createSlice({
+  name: "character",
+  initialState,
+  reducers: {
+    getAllCharacter() {},
+    addCharacter(state, { payload }) {
+      state.character =
+        state.currentPage === 1
+          ? payload.character
+          : [...state.character, ...payload.character];
+      state.fullPage = payload.fullPage;
+      state.currentPage = state.currentPage + 1;
+    },
+    searchCharacter(state, { payload }) {
+      state.search = payload.search;
+      state.currentPage = 1;
+    },
+  },
+});
 
-export default character;
+export const { getAllCharacter, addCharacter, searchCharacter } =
+  characterSlice.actions;
+
+export default characterSlice.reducer;
