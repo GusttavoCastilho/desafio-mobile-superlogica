@@ -8,19 +8,30 @@ import { Wrapper, FavoriteBox, NumberFavorite, TextNumber } from "./styles";
 
 interface FavoriteProps {
   quantity: number;
+  onFavorite: () => void;
+  onClose: () => void;
 }
 
-const Favorite: React.FC<FavoriteProps> = ({ quantity }) => {
+const Favorite: React.FC<FavoriteProps> = ({
+  quantity,
+  onFavorite,
+  onClose,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
+
   const theme = useTheme();
+
   return (
     <Wrapper>
       {isFavorite ? (
         <Ionicons
-          name="filter"
+          name="close"
           size={24}
           color={theme.colors.gray}
-          onPress={() => setIsFavorite(!isFavorite)}
+          onPress={() => {
+            onClose();
+            setIsFavorite(!isFavorite);
+          }}
         />
       ) : (
         <FavoriteBox>
@@ -33,7 +44,10 @@ const Favorite: React.FC<FavoriteProps> = ({ quantity }) => {
             name="favorite"
             size={24}
             color={theme.colors.gray}
-            onPress={() => setIsFavorite(!isFavorite)}
+            onPress={() => {
+              onFavorite();
+              setIsFavorite(!isFavorite);
+            }}
           />
         </FavoriteBox>
       )}
