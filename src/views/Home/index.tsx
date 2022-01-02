@@ -2,10 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { FlatList, StatusBar, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import Ionicons from "@expo/vector-icons/Ionicons";
-
-import { useTheme } from "styled-components";
-
 import Search from "../../components/Search";
 import CardItem from "../../components/CardItem";
 import ModalComponent from "../../components/Modal";
@@ -19,19 +15,21 @@ import {
   searchCharacter,
 } from "../../store/modules/Character/reducers";
 import { RootState } from "../../store";
+import Favorite from "../../components/Favorite";
 
 const Home: React.FC = () => {
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [infoModal, setInfoModal] = useState<Character>({} as Character);
   const [search, setSearch] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const { character, currentPage, fullPage } = useSelector(
     (state: RootState) => state.character
   );
-
+  const { favorite } = useSelector((state: RootState) => state.favorite);
+  console.log(favorite);
   useEffect(() => {
     dispatch(getAllCharacter());
   }, []);
@@ -58,15 +56,19 @@ const Home: React.FC = () => {
           onChangeText={(search) => setSearch(search)}
           onSubmitEditing={handleInputSearch}
         />
-        <Ionicons name="filter" size={24} color={theme.colors.gray} />
+        <Favorite
+          quantity={favorite.length}
+          onFavorite={() => setIsFavorite(true)}
+          onClose={() => setIsFavorite(false)}
+        />
       </WrapperHeader>
 
       <Content>
         <TextRick>List Character</TextRick>
 
         <FlatList
-          data={character}
-          keyExtractor={(item) => item.id.toString()}
+          data={isFavorite ? favorite : character}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <CardItem
               //@ts-ignore
@@ -91,11 +93,7 @@ const Home: React.FC = () => {
           }}
         >
           <ModalComponent
-            id={infoModal.id}
-            image={infoModal.image}
-            name={infoModal.name}
-            species={infoModal.species}
-            status={infoModal.status}
+            items={infoModal}
             onPress={() => setModalVisible(!modalVisible)}
           />
         </Modal>
