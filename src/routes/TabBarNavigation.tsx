@@ -2,19 +2,15 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../views/Home";
 
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import Episodes from "../views/Episodes/Index";
 import Locations from "../views/Locations";
-import { Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
 const TabBarNavigation: React.FC = () => {
   const theme = useTheme();
-
-  const ActiveLabelColor = theme.colors.gray;
-  const InactiveLabelColor = theme.colors.dark_light;
 
   return (
     <Tab.Navigator
@@ -24,17 +20,10 @@ const TabBarNavigation: React.FC = () => {
           backgroundColor: "#202329",
           borderTopWidth: 0,
         },
-        tabBarLabel: ({ focused }) => (
-          <Text
-            style={{
-              fontSize: 10,
-              color: focused ? ActiveLabelColor : InactiveLabelColor,
-              paddingBottom: 3,
-            }}
-          >
-            Home
-          </Text>
-        ),
+        tabBarLabelStyle: {
+          fontSize: 10,
+          paddingBottom: 3,
+        },
         tabBarActiveTintColor: theme.colors.gray,
         tabBarInactiveTintColor: theme.colors.dark_light,
       }}
