@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const BoxModal = styled.View`
   width: 90%;
-  background-color: ${({ theme }) => theme.colors.dark_light};
+  background-color: ${({ theme }) => theme.colors.dark};
   border-radius: 20px;
   padding: 35px;
   align-items: center;
@@ -23,7 +23,14 @@ export const Image = styled.Image`
 `;
 
 export const Content = styled.View`
-  padding-top: 20px;
+  padding-top: 10px;
+`;
+
+export const Divider = styled.View`
+  width: 100%;
+  height: 2px;
+  background-color: ${({ theme }) => theme.colors.dark_light};
+  margin-top: 10px;
 `;
 
 export const Text = styled.Text`
@@ -38,5 +45,14 @@ export const ButtonClose = styled.TouchableOpacity`
   right: 10px;
   width: 40px;
   height: 40px;
-  /* background-color: red; */
+`;
+
+export const ButtonFavorite = styled.TouchableOpacity`
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  background-color: ${({ theme }) => theme.colors.dark_light};
+  border-radius: 10px;
+  flex-direction: row;
 `;
